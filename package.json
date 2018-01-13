@@ -1,0 +1,26 @@
+{
+  "name": "scratch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kleahey/scratch.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kleahey/scratch/issues"
+  },
+  "homepage": "https://github.com/kleahey/scratch#readme",
+  "devDependencies": {
+    "aws-sdk": "^2.181.0"
+  },
+  "dependencies": {
+    "uuid": "^3.1.0"
+  }
+}
