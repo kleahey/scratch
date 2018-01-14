@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Nav, NavItem, Navbar } from "react-bootstrap";
 import RouteNavItem from "./components/RouteNavItem";
 import "./App.css";
 import Routes from "./Routes";
+import { authUser, signOutUser } from "./libs/awsLib";
 
 
 class App extends Component {
@@ -11,8 +12,22 @@ class App extends Component {
     super(props);
 
     this.state = {
-      isAuthenticated: false
+      isAuthenticated: false,
+      isAuthenticating: true
     };
+  }
+
+  async componentDidMount() {
+    try {
+      if (await authUser()) {
+        this.userHasAuthenticated(true);
+      }
+    }
+    catch(e) {
+      alert(e);
+    }
+
+    this.setState({ isAuthenticating: false });
   }
 
   userHasAuthenticated = authenticated => {
@@ -20,7 +35,11 @@ class App extends Component {
   }
 
   handleLogout = event => {
+    signOutUser();
+
     this.userHasAuthenticated(false);
+
+    this.props.history.push("/login");
   }
 
   render() {
@@ -29,6 +48,7 @@ class App extends Component {
       userHasAuthenticated: this.userHasAuthenticated
     };
     return (
+      !this.state.isAuthenticating &&
       <div className="App container">
         <Navbar fluid collapseOnSelect>
           <Navbar.Header>
@@ -58,4 +78,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
