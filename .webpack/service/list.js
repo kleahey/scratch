@@ -92,34 +92,29 @@ var main = exports.main = function () {
           case 0:
             params = {
               TableName: "note",
-              Key: {
-                userId: event.requestContext.identity.cognitoIdentityId,
-                noteId: event.pathParameters.id
+              KeyConditionExpression: "userId = :userId",
+              ExpressionAttributeValues: {
+                ":userId": event.requestContext.identity.cognitoIdentityId
               }
             };
             _context.prev = 1;
             _context.next = 4;
-            return dynamoDbLib.call("get", params);
+            return dynamoDbLib.call("query", params);
 
           case 4:
             result = _context.sent;
 
-            if (result.Item) {
-              callback(null, (0, _responseLib.success)(result.Item));
-            } else {
-              callback(null, (0, _responseLib.failure)({ status: false, error: "Item not found." }));
-            }
-            _context.next = 12;
+            callback(null, (0, _responseLib.success)(result.Items));
+            _context.next = 11;
             break;
 
           case 8:
             _context.prev = 8;
             _context.t0 = _context["catch"](1);
 
-            console.log(_context.t0);
             callback(null, (0, _responseLib.failure)({ status: false }));
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
