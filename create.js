@@ -1,5 +1,5 @@
 import uuid from "uuid";
-import * from dynamoDbLib from "./libs/dynamodb-lib";
+import * as dynamoDbLib from "./libs/dynamodb-lib";
 import { success, failure } from "./libs/response-lib";
 
 export async function main(event, context, callback) {
@@ -29,6 +29,7 @@ export async function main(event, context, callback) {
     await dynamoDbLib.call("put", params);
     callback(null, success(params.Item));
   } catch (e) {
-    callback(null, failure({ status: false}));
+    console.log(e);
+    callback(null, failure({ status: false }));
   }
 }
